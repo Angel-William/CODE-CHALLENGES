@@ -1,0 +1,26 @@
+// Define breakpoints for 'up' (min-width) and 'down' (max-width)
+$breakpoints-up: (
+  "medium": "40em",
+  "large": "71.875em",
+  "xlarge": "87.5em",
+);
+
+$breakpoints-down: (
+  "small": "39.9375em",
+  "medium": "71.8125em",
+  "large": "87.4375em",
+);
+
+// Mixin for min-width (up)
+@mixin breakpoint($size) {
+  @media (min-width: map-get($breakpoints-up, $size)) {
+    @content; // Include the content passed to the mixin here
+  }
+}
+
+// Mixin for max-width (down)
+@mixin breakpoint-down($size) {
+  @media (max-width: map-get($breakpoints-down, $size)) {
+    @content; // Include the content passed to the mixin here
+  }
+}
