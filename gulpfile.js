@@ -9,11 +9,12 @@ const browsersync = require('browser-sync').create();
 
 // Sass Task
 function scssTask() {
-  return src('app/scss/style.scss', { sourcemaps: true })
-    .pipe(sass().on('error', sass.logError))  // Error handling for Sass
-    .pipe(postcss([autoprefixer(), cssnano()]))  // PostCSS for autoprefixing and minification
-    .pipe(dest('dist', { sourcemaps: '.' }));
+  return src('app/scss/style.scss', { sourcemaps: true })  // Input file path
+    .pipe(sass().on('error', sass.logError))  // Compile Sass to CSS, with error handling
+    .pipe(postcss([autoprefixer(), cssnano()]))  // Apply autoprefixer and minify CSS
+    .pipe(dest('dist', { sourcemaps: '.' }));  // Output the compiled CSS to dist folder
 }
+
 
 // JavaScript Task
 function jsTask() {
@@ -40,9 +41,10 @@ function browserSyncReload(cb) {
 
 // Watch Task
 function watchTask() {
-  watch('*.html', browserSyncReload);  // Watch HTML files
+  watch('*.html', browserSyncReload);  // Watch HTML files for changes
   watch(['app/scss/**/*.scss', 'app/**/*.js'], series(scssTask, jsTask, browserSyncReload));  // Watch Sass and JS files
 }
+
 
 // Default Gulp Task
 exports.default = series(scssTask, jsTask, browserSyncServe, watchTask);
